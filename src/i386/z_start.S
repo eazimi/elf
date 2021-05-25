@@ -6,6 +6,6 @@ z_start:
 	mov	%esp,	%eax
 	push	%edx
 	push	%eax
-	call	z_entry
+	call	entry
 	hlt
 

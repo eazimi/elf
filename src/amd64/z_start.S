@@ -6,6 +6,6 @@
 z_start:
 	mov	%rsp,	%rdi
 	mov	%rdx,	%rsi
-	call	z_entry
+	call	entry
 	hlt
 

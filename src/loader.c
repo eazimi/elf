@@ -97,7 +97,7 @@ err:
 #define Z_PROG		0
 #define Z_INTERP	1
 
-void z_entry(unsigned long *sp, void (*fini)(void))
+void entry(unsigned long *sp, void (*fini)(void))
 {
 	Elf_Ehdr ehdrs[2], *ehdr = ehdrs;
 	Elf_Phdr *phdr, *iter;
