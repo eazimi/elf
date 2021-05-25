@@ -188,8 +188,20 @@ void z_entry(unsigned long *sp, void (*fini)(void))
 	/* SP points to argc. */
 	(*sp)--;
 
+	// while(1);
+
 	z_trampo((void (*)(void))(elf_interp ?
 			entry[Z_INTERP] : entry[Z_PROG]), sp, z_fini);
+
+	
+	// asm volatile (
+	// 	"mov %0, %%rsp;\n\t"
+	// 	"jmp *%1;\n\t"		
+	// 	"hlt; /* Should not reach.*/\n\t"
+	// 	: 
+	// 	:"r" (elf_interp ? entry[Z_INTERP] : entry[Z_PROG]), "r" (sp) 
+	// );
+
 	/* Should not reach. */
 	z_exit(0);
 }
