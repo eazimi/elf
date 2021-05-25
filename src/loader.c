@@ -2,6 +2,7 @@
 #include "z_syscalls.h"
 #include "z_utils.h"
 #include "z_elf.h"
+#include <stdio.h>
 
 #define PAGE_SIZE	4096
 #define ALIGN		(PAGE_SIZE - 1)
@@ -97,8 +98,20 @@ err:
 #define Z_PROG		0
 #define Z_INTERP	1
 
+void run_child_process(unsigned long *sp)
+{
+	fprintf(stdout, "child process\n");
+}
+
 void entry(unsigned long *sp, void (*fini)(void))
 {
+	pid_t pid = fork();
+	if(pid == 0) // child
+	{
+		run_child_process(sp);
+		return;
+	}
+
 	Elf_Ehdr ehdrs[2], *ehdr = ehdrs;
 	Elf_Phdr *phdr, *iter;
 	Elf_auxv_t *av;

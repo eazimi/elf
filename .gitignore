@@ -7,3 +7,4 @@ src/z_utils.o
 src/amd64/z_start.o
 src/amd64/z_syscall.o
 src/amd64/z_trampo.o
+.vscode/settings.json
