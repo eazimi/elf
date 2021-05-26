@@ -3,6 +3,7 @@
 #include "z_utils.h"
 #include "z_elf.h"
 #include <stdio.h>
+#include <sys/mman.h>
 
 #define PAGE_SIZE	4096
 #define ALIGN		(PAGE_SIZE - 1)
@@ -98,6 +99,8 @@ err:
 #define Z_PROG		0
 #define Z_INTERP	1
 
+#define ONE_GB 0x40000000
+
 void run_child_process(unsigned long *sp)
 {
 	fprintf(stdout, "child process\n");
@@ -105,6 +108,10 @@ void run_child_process(unsigned long *sp)
 
 void entry(unsigned long *sp, void (*fini)(void))
 {
+	void *reserved = mmap(NULL, ONE_GB, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+	if(reserved == MAP_FAILED)
+		z_errx(1, "reserve failed");
+
 	pid_t pid = fork();
 	if(pid == 0) // child
 	{
